@@ -1,0 +1,102 @@
+<div class="row header">
+    <div class="col-lg-12">
+        <label> Staff History List</label>
+    </div>
+  </div>
+
+<div class="row crud-row">
+    <div class="col-sm-4 form-group">
+        <p-dropdown [options]="ddModelVmsPageSpecific.StaffVMs" [(ngModel)]="selectedCustomer" [filter]="true"
+            filterBy="label" (onChange)="SelectedCustomer($event)"></p-dropdown>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-lg-12"  >
+
+        <table  id="new-table" >
+            <thead>
+                <tr>
+                    <th>Purpose</th>
+                    <th>ItemName</th>
+                    <th>CategoryName</th>
+                    <th>UnitPrice</th>
+                    <th>Quantity</th>
+                    <!-- <th>PaidAmount</th> -->
+                    <th colspan="4">Amount Details</th>
+                    <!-- <th>PayableAmount</th>
+                    <th>RecievableAmount</th> -->
+                    <th>OccurranceDate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let dataRow of wrapperItemList.ListOfData">
+
+
+                    <td>{{dataRow.Purpose}}</td>
+                    <!-- Invoice     -->
+                    <td *ngIf="dataRow.Type == 'InvoiceItem'" colspan="5">Invoice Total : {{dataRow.InvoiceTotalAfterDiscount}}</td>
+                    <td *ngIf="dataRow.Type == 'InvoiceItem'" colspan="3">Paid :
+                        {{dataRow.PaidAmount}},&nbsp;&nbsp;Payable : {{dataRow.PayableAmount}}</td>
+                    <td *ngIf="dataRow.Type == 'InvoiceItem'">{{dataRow.OccurranceDate  |  date:'medium' }}</td>
+
+
+                    <!-- Sales -->
+                    <td *ngIf="dataRow.Type == 'ProductionItem'">{{dataRow.ItemName}}</td>
+                    <td *ngIf="dataRow.Type == 'ProductionItem'">{{dataRow.CategoryName}}</td>
+                    <td *ngIf="dataRow.Type == 'ProductionItem'">{{dataRow.UnitPrice}}</td>
+                    <td *ngIf="dataRow.Type == 'ProductionItem'">{{dataRow.Quantity}}</td>
+                    <td *ngIf="dataRow.Type == 'ProductionItem'" colspan="4">
+                        {{dataRow.UnitPrice * dataRow.Quantity}}
+                    </td>
+                    <td *ngIf="dataRow.Type == 'ProductionItem'">{{dataRow.OccurranceDate  |  date:'medium' }}</td>
+
+
+
+                    <!-- Expense -->
+                    <td *ngIf="dataRow.Type == 'ExpenseItem'" colspan="5">Paid to Staff</td>
+                    <td *ngIf="dataRow.Type == 'ExpenseItem'" colspan="3">{{dataRow.PaidAmount}}</td>
+                    <td *ngIf="dataRow.Type == 'ExpenseItem'"> {{dataRow.OccurranceDate  |  date:'medium' }}</td>
+
+
+                    <!-- Income -->
+                    <td *ngIf="dataRow.Type == 'IncomeItem'" colspan="5">Recieved from Staff</td>
+                    <td *ngIf="dataRow.Type == 'IncomeItem'" colspan="3">{{dataRow.RecievedAmount}}</td>
+                    <td *ngIf="dataRow.Type == 'IncomeItem'"> {{dataRow.OccurranceDate  |  date:'medium' }}</td>
+
+
+                    <!-- Payable -->
+                    <td *ngIf="dataRow.Type == 'PayableItem'" colspan="5">Payable to Staff</td>
+                    <td *ngIf="dataRow.Type == 'PayableItem'" colspan="3">{{dataRow.PayableAmount}}</td>
+                    <td *ngIf="dataRow.Type == 'PayableItem'"> {{dataRow.OccurranceDate  |  date:'medium' }}</td>
+
+                    <!-- Recievable -->
+                    <td *ngIf="dataRow.Type == 'RecievableItem'" colspan="5">Recievable from Staff</td>
+                    <td *ngIf="dataRow.Type == 'RecievableItem'" colspan="3">{{dataRow.RecievableAmount}}</td>
+                    <td *ngIf="dataRow.Type == 'RecievableItem'"> {{dataRow.OccurranceDate  |  date:'medium' }}</td>
+
+
+
+
+                    <!-- this.columnList = [
+                    // { field: 'Action', header: 'Action', fieldType: 'icon' },
+                    { field: 'ItemName', header: 'ItemName', fieldType: 'string' },
+                    { field: 'CategoryName', header: 'CategoryName', fieldType: 'string' },
+                    { field: 'UnitPrice', header: 'UnitPrice', fieldType: 'number' },
+                    { field: 'Quantity', header: 'Quantity', fieldType: 'number' },
+                    { field: 'PaidAmount', header: 'PaidAmount', fieldType: 'number' },
+                    { field: 'RecievedAmount', header: 'RecievedAmount', fieldType: 'number' },
+                    { field: 'PayableAmount', header: 'PayableAmount', fieldType: 'number' },
+                    { field: 'RecievableAmount', header: 'RecievableAmount', fieldType: 'number' },
+                    { field: 'OccurranceDate', header: 'OccurranceDate', fieldType: 'date' },
+                  ]; -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm-12 paging">
+        <span (click)="GoToPage('-')" class="space-around paging-icons"><i class="pi pi-fast-backward"></i></span>
+        <span class="space-around page-no">{{this.CurrentPageNo}}</span>
+        <span (click)="GoToPage('+')" class="space-around paging-icons"><i class="pi pi-fast-forward"></i></span>
+    </div>
+</div>
